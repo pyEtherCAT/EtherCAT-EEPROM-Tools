@@ -1,0 +1,68 @@
+{
+    "Lisence":"ArtifdactNoise,LLP",
+    "Generator Version":"V1",
+    "ESC Info":
+    {
+          "PDI Control":
+          {
+              "PDI ControlRegister":"0x80",
+              "ESC Configuration Register":"0x01"
+          },
+          "PDI Configuration": 
+          {
+              "PDI Configuration Register":"0x00",
+              "Sync/Latch PDI Configuration Register":"0xFF"
+          },
+          "Pulse Length of SyncSignals Register": "0x0000",
+          "Extended PDI Configuration Register": "0x00FF",
+          "Configured Station Alias Register": "0x0000",
+          "Other INFO":
+          {
+              "MII Management Control/Status Register":"0x00",
+              "ASIC Configuration Register":"0x00"
+         },
+        "Checksum": "0x00",
+        "Vendor ID": "0x00000A68",
+        "Product Code": "0x00000001",
+        "Revision Number": "0x00000001",
+        "Serial Number": "0x00000001",
+        "Bootstrap Receive Mailbox Offset": "0x0000",
+        "Bootstrap Receive Mailbox Size": "0x0000",
+        "Bootstrap Send Mailbox Offset": "0x0000",
+        "Bootstrap Send Mailbox Size": "0x0000",
+        "Standard Receive Mailbox Offset": "0x0000",
+        "Standard Receive Mailbox Size": "0x0000",
+        "Standard Send Mailbox Offset": "0x0000",
+        "Standard Send Mailbox Size": "0x0000",
+        "Mailbox Protocol": "0x0000",
+        "EEPROM Size": "0x000F",
+        "Version": "0x0001"
+    },
+    "Categories":
+    {
+        "Strings": ["ArtifactNoise-DIGIO","ArtifactNoise","Output x16"],
+        "General":
+        {
+            "GroupIdx": "1",
+            "ImgIdx": "2",
+            "OrderIdx": "1",
+            "NameIdx": "0",
+            "CoE Details": "0",
+            "FoE Details": "0",
+            "EoE Details": "0",
+            "SoEChannels": "0",
+            "DS402Channels": "0",
+            "SysmanClass": "0",
+            "Flags": "0",
+            "CurrentOnEBus": "0",
+            "GroupIdx2": "0",
+            "Physical Port": "0",
+            "Physical Memory Address": "0"
+        },
+        "FMMU":{},
+        "SyncManager":{},
+        "TXPDO":{},
+        "RXPDO":{},
+        "DC":{}
+    }
+}
