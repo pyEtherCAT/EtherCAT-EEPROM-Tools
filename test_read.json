@@ -1,0 +1,63 @@
+{
+    "Categories": {
+        "General": {
+            "CoE Details": 0,
+            "CurrentOnEBus": 0,
+            "DS402Channels": 0,
+            "EoE Details": 0,
+            "Flags": 0,
+            "FoE Details": 0,
+            "GroupIdx": 15,
+            "GroupIdx?": 0,
+            "ImgIdx": 0,
+            "NameIdx": 2,
+            "OrderIdx": 1,
+            "Physical Memory Address": 0,
+            "Physical Port": 0,
+            "SoEChannels": 0,
+            "SysmanClass": 0
+        },
+        "Strings": {
+            "DATA": [
+                "ArtifactNoise-DIGIO",
+                "ArtifactNoise",
+                "Output x16"
+            ],
+            "Strings length": "0x03",
+            "WORD Length": "0x002E"
+        }
+    },
+    "ESC Info": {
+        "Bootstrap Receive Mailbox Offset": "0x0000",
+        "Bootstrap Receive Mailbox Size": "0x0000",
+        "Bootstrap Send Mailbox Offset": "0x0000",
+        "Bootstrap Send Mailbox Size": "0x0000",
+        "CRC": "0x0065",
+        "Configured Station Alias Register": "0x0000",
+        "EEPROM Size": "0x000F",
+        "Extended PDI Configuration Register": "0x00FF",
+        "Mailbox Protocol": "0x0000",
+        "Other INFO": {
+            "ASIC Configuration Register": "0x00",
+            "MII Management Control/Status Register": "0x00"
+        },
+        "PDI Configuration": {
+            "PDI Configuration Register": "0x00",
+            "Sync/Latch PDI Configuration Register": "0xFF"
+        },
+        "PDI Control": {
+            "ESC Configuration Register": "0x01",
+            "PDI ControlRegister": "0x80"
+        },
+        "Product Code": "0x00000001",
+        "Pulse Length of SyncSignals Register": "0x0000",
+        "Revision Number": "0x00000001",
+        "Serial Number": "0x00000001",
+        "Standard Receive Mailbox Offset": "0x0000",
+        "Standard Receive Mailbox Size": "0x0000",
+        "Standard Send Mailbox Offset": "0x0000",
+        "Standard Send Mailbox Size": "0x0000",
+        "Vendor ID": "0x00000A68",
+        "Version": "0x0001"
+    }
+}
