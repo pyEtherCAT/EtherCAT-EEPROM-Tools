@@ -233,12 +233,12 @@ def BINtoJSON(inbin,outjson):
             print('0x{:02X}'.format(data[base+5]))
             print('0x{:02X}'.format(data[base+6]))
             jdata["Categories"]["TXPDO"] = {}
-            jdata["Categories"]["TXPDO"]["PDO_Index"]= data[base+2] | data[base+3]<<8
+            jdata["Categories"]["TXPDO"]["PDO_Index"]= '0x{:04X}'.format(data[base+2] | data[base+3]<<8)
             jdata["Categories"]["TXPDO"]["nEntry"]= data[base+4]
             jdata["Categories"]["TXPDO"]["SyncM"]= data[base+5] 
             jdata["Categories"]["TXPDO"]["Synchronization"]= data[base+6] 
             jdata["Categories"]["TXPDO"]["NameIdx"]= data[base+7] 
-            jdata["Categories"]["TXPDO"]["Flags"]= data[base+8] | data[base+9]<<8
+            jdata["Categories"]["TXPDO"]["Flags"]= '0x{:04X}'.format(data[base+8] | data[base+9]<<8)
             base2 = base+9
             #jdata["Categories"]["TXPDO"]["DATA"]
             """
@@ -266,7 +266,7 @@ def BINtoJSON(inbin,outjson):
 
 if __name__ == "__main__":
     
-    inbin = 'read.bin'
+    inbin = 'omron_read.bin'
     outjson = "test_read.json"
     BINtoJSON(inbin,outjson)
     print("="*10)

@@ -1,30 +1,73 @@
 {
     "Categories": {
+        "FMMU": {
+            "FMMU0": 1,
+            "FMMU1": 0,
+            "FMMU2": 1,
+            "FMMU3": 2
+        },
         "General": {
-            "CoE Details": 0,
-            "CurrentOnEBus": 0,
+            "CoE Details": 3,
+            "CurrentOnEBus": 1024,
             "DS402Channels": 0,
-            "EoE Details": 0,
+            "EoE Details": 37,
             "Flags": 0,
-            "FoE Details": 0,
-            "GroupIdx": 15,
+            "FoE Details": 1,
+            "GroupIdx": 16,
             "GroupIdx?": 0,
             "ImgIdx": 0,
-            "NameIdx": 2,
-            "OrderIdx": 1,
-            "Physical Memory Address": 0,
-            "Physical Port": 0,
+            "NameIdx": 0,
+            "OrderIdx": 2,
+            "Physical Memory Address": 17,
+            "Physical Port": 2,
             "SoEChannels": 0,
             "SysmanClass": 0
         },
         "Strings": {
             "DATA": [
-                "ArtifactNoise-DIGIO",
-                "ArtifactNoise",
-                "Output x16"
+                "GX-ID1611",
+                "Digital IO",
+                "GX-ID1611 2-tier terminal block 16 inputs (NPN)",
+                "257th transmit PDO Mapping",
+                "Read input 1st word",
+                "258th transmit PDO Mapping",
+                "Input Bit00",
+                "Input Bit01",
+                "Input Bit02",
+                "Input Bit03",
+                "Input Bit04",
+                "Input Bit05",
+                "Input Bit06",
+                "Input Bit07",
+                "Input Bit08",
+                "Input Bit09",
+                "Input Bit10",
+                "Input Bit11",
+                "Input Bit12",
+                "Input Bit13",
+                "Input Bit14",
+                "Input Bit15",
+                "512th transmit PDO Mapping",
+                "Sysmac Error Status"
             ],
-            "Strings length": "0x03",
-            "WORD Length": "0x002E"
+            "Strings length": "0x18",
+            "WORD Length": "0x00C0"
+        },
+        "SyncM": {
+            "ControlRegister": 0,
+            "EnableSynchManager": 38,
+            "Length": 6144,
+            "PhysicalStartAddress": 16,
+            "StatusRegister": 2,
+            "SyncManagerType": 0
+        },
+        "TXPDO": {
+            "Flags": "0x0400",
+            "NameIdx": 255,
+            "PDO_Index": "0x0054",
+            "SyncM": 27,
+            "Synchronization": 1,
+            "nEntry": 0
         }
     },
     "ESC Info": {
@@ -32,32 +75,32 @@
         "Bootstrap Receive Mailbox Size": "0x0000",
         "Bootstrap Send Mailbox Offset": "0x0000",
         "Bootstrap Send Mailbox Size": "0x0000",
-        "CRC": "0x0065",
+        "CRC": "0x0017",
         "Configured Station Alias Register": "0x0000",
         "EEPROM Size": "0x000F",
-        "Extended PDI Configuration Register": "0x00FF",
-        "Mailbox Protocol": "0x0000",
+        "Extended PDI Configuration Register": "0x0001",
+        "Mailbox Protocol": "0x0004",
         "Other INFO": {
             "ASIC Configuration Register": "0x00",
             "MII Management Control/Status Register": "0x00"
         },
         "PDI Configuration": {
             "PDI Configuration Register": "0x00",
-            "Sync/Latch PDI Configuration Register": "0xFF"
+            "Sync/Latch PDI Configuration Register": "0x8C"
         },
         "PDI Control": {
-            "ESC Configuration Register": "0x01",
-            "PDI ControlRegister": "0x80"
+            "ESC Configuration Register": "0x0C",
+            "PDI ControlRegister": "0x08"
         },
-        "Product Code": "0x00000001",
-        "Pulse Length of SyncSignals Register": "0x0000",
-        "Revision Number": "0x00000001",
-        "Serial Number": "0x00000001",
-        "Standard Receive Mailbox Offset": "0x0000",
-        "Standard Receive Mailbox Size": "0x0000",
-        "Standard Send Mailbox Offset": "0x0000",
-        "Standard Send Mailbox Size": "0x0000",
-        "Vendor ID": "0x00000A68",
+        "Product Code": "0x0000000E",
+        "Pulse Length of SyncSignals Register": "0x0064",
+        "Revision Number": "0x00010001",
+        "Serial Number": "0x800003EA",
+        "Standard Receive Mailbox Offset": "0x1800",
+        "Standard Receive Mailbox Size": "0x0200",
+        "Standard Send Mailbox Offset": "0x1C00",
+        "Standard Send Mailbox Size": "0x0200",
+        "Vendor ID": "0x00000083",
         "Version": "0x0001"
     }
 }
