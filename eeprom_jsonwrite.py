@@ -4,7 +4,7 @@ import json
 from pyEtherCAT import MasterEtherCAT
 import time
 import os
-import fire
+#import fire
 
 #==============================================================================#
 #
@@ -25,7 +25,7 @@ def CRC(data):
 def JSONtoBIN(injson,outbin):
 	f = open(injson,"r")
 	jdata = json.load(f) 
-	print(jdata["Lisence"])
+	#print(jdata["Lisence"])
 	d = [
 		# PDI 制御レジスタ[0x0140]
 		int(jdata["ESC Info"]["PDI Control"]["PDI ControlRegister"],16), 
@@ -104,35 +104,81 @@ def JSONtoBIN(injson,outbin):
 	f.write(struct.pack("H",(int(jdata["ESC Info"]["EEPROM Size"],16))))
 	# Version [0x3F]EEPROM 
 	f.write(struct.pack("H",(int(jdata["ESC Info"]["Version"],16))))
+	print("0x{:02X}".format(f.tell()))
+
+
+    #-----------------------------------------#
+    # CATEGORIES HEADER
+    #-----------------------------------------#
+	if "STRINGS" in jdata["Categories"]:
+		DATA = jdata["Categories"]["STRINGS"]
+		#print(DATA)
+		Categorie_STRINGS(f,jdata)
+	if "General" in jdata["Categories"]:
+		DATA = jdata["Categories"]["General"]
+		#print(DATA)
+		Categorie_GENERAL(f,jdata)
+	if "FMMU" in jdata["Categories"]:
+		DATA = jdata["Categories"]["FMMU"]
+		Categorie_FMMU(f,jdata)
+		#print(DATA)
+	if "SyncM" in jdata["Categories"]:
+		DATA = jdata["Categories"]["SyncM"]
+		Categorie_SYNCM(f,jdata)
+		#print(DATA)
+	if "TXPDO" in jdata["Categories"]:
+		DATA = jdata["Categories"]["TXPDO"]
+		Categorie_TXPDO(f,jdata)
+		#print(DATA)
+	if "RXPDO" in jdata["Categories"]:
+		DATA = jdata["Categories"]["RXPDO"]
+		Categorie_RXPDO(f,jdata)
+		#print(DATA)
+	if "DC" in jdata["Categories"]:
+		DATA = jdata["Categories"]["DC"]
+		Categorie_DC(f,jdata)
+		#print(DATA)
+	f.close()
+
+#==============================================================================#
+#
+#==============================================================================#	
+def Categorie_STRINGS(f,jdata):
 	#-----------------------------------------#
 	# STRINGS CATEGORIES
 	#-----------------------------------------#
 	#DATA = [b"ArtifactNoise-DIGIO",b"ArtifactNoise",b"Output x16"]
-	DATA = jdata["Categories"]["Strings"]
-	for i in range(len(jdata["Categories"]["Strings"])):
-		DATA[i] = jdata["Categories"]["Strings"][i].encode('utf-8')
+	#DATA = jdata["Categories"]["STRINGS"]
 	f.write(struct.pack("H",10))            # STRINGS TYPE
-	Size = 1
-	for i in range(len(DATA)):
-		Size += len(DATA[i])+1
-	print("WORD Length:0x%04X" % Size)
-	print("Strings length:0x%02X" % len(DATA))
-	f.write(struct.pack("H",Size))          # WORD Length
-	f.write(struct.pack("B",len(DATA)))     # Strings length
-	for n in range(len(DATA)):
-		f.write(struct.pack("B",len(DATA[n])))    # String length
-		print("String length:0x%02X" % len(DATA[n]))
-		for i in range(0,len(DATA[n])):
-			f.write(struct.pack("B",DATA[n][i]))    # String Data
+	csize = 1
+	for i in range(len(jdata["Categories"]["STRINGS"]["Index"])):
+		length  = len(jdata["Categories"]["STRINGS"]["Index"][str(i)]["string"].encode('utf-8'))
+		csize = csize + length+1
+	f.write(struct.pack("H",int(csize/2)+1)) 
+	addr = f.tell()
+	f.write(struct.pack("B",int(jdata["Categories"]["STRINGS"]["WORD Length"],16)))            # STRINGS 
+	#print(len(jdata["Categories"]["STRINGS"]["Index"]))
+	DATA = [0]*len(jdata["Categories"]["STRINGS"]["Index"])
+	for i in range(len(jdata["Categories"]["STRINGS"]["Index"])):
+		length  = len(jdata["Categories"]["STRINGS"]["Index"][str(i)]["string"].encode('utf-8'))
+		f.write(struct.pack("B",length))          # STRINGS TYPE
+		for n in range(length):
+			f.write(struct.pack("B",jdata["Categories"]["STRINGS"]["Index"][str(i)]["string"].encode('utf-8')[n]))            # STRINGS TYPE
+	if((f.tell()-addr)%2 == 1):
+		f.write(struct.pack("B",0x00))
+#==============================================================================#
+#
+#==============================================================================#
+def Categorie_GENERAL(f,jdata):
 	#-----------------------------------------#
 	# General CATEGORIES
 	#-----------------------------------------#
-	f.write(struct.pack("H",30))            # GENERAL TYPE
-	f.write(struct.pack("H",0x0F))          # WORD Length
-	f.write(struct.pack("B",int(jdata["Categories"]["General"]["GroupIdx"],10)))     # GroupIdx
-	f.write(struct.pack("B",int(jdata["Categories"]["General"]["ImgIdx"],10)))     # ImgIdx
-	f.write(struct.pack("B",int(jdata["Categories"]["General"]["OrderIdx"],10)))     # OrderIdx
-	f.write(struct.pack("B",0x00))     # NameIdx
+	f.write(struct.pack("H",30))            # STRINGS TYPE
+	f.write(struct.pack("H",int((0x14+12)/2)))            # GENERAL TYPE
+	f.write(struct.pack("B",jdata["Categories"]["General"]["GroupIdx"]))     # GroupIdx
+	f.write(struct.pack("B",jdata["Categories"]["General"]["ImgIdx"]) )    # ImgIdx
+	f.write(struct.pack("B",jdata["Categories"]["General"]["OrderIdx"]))     # OrderIdx
+	f.write(struct.pack("B",jdata["Categories"]["General"]["NameIdx"]))     # NameIdx
 	f.write(struct.pack("B",0x00))     # Reserved
 	f.write(struct.pack("B",0x00))     # CoE Details
 	f.write(struct.pack("B",0x00))     # FoE Details
@@ -141,15 +187,105 @@ def JSONtoBIN(injson,outbin):
 	f.write(struct.pack("B",0x00))     # DS402Channels
 	f.write(struct.pack("B",0x00))     # SysmanClass
 	f.write(struct.pack("B",0x00))     # Flags
-	f.write(struct.pack("B",0x00))     # CurrentOnEBus
-	f.write(struct.pack("B",0x00))     # GroupIdx
-	f.write(struct.pack("B",0x00))     # Reserved1
-	f.write(struct.pack("B",0x00))     # Reserved1
-	f.write(struct.pack("H",0x00))     # Physical Port
-	f.write(struct.pack("H",0x00))     # Physical Memory Address
-	for i in range(12):
+	f.write(struct.pack("H",0x00))     # CurrentOnEBus
+	f.write(struct.pack("B",jdata["Categories"]["General"]["GroupIdx2"]))     # GroupIdx
+	f.write(struct.pack("H",0x00))     # Reserved1
+	f.write(struct.pack("H",int(jdata["Categories"]["General"]["Physical Port"],16)))     # Physical Port
+	f.write(struct.pack("H",int(jdata["Categories"]["General"]["Physical Memory Address"],16)))     # Physical Memory Address
+	for i in range(12-1):
 		f.write(struct.pack("B",0x00))     # Reserved2
-	f.close()
+#==============================================================================#
+#
+#==============================================================================#
+def Categorie_FMMU(f,jdata):
+	f.write(struct.pack("H",40))
+	size = len(jdata["Categories"]["FMMU"])            
+	f.write(struct.pack("H",size-1))
+	for i in range(size):
+		if(jdata["Categories"]["FMMU"][str(i)]=="None"):
+			f.write(struct.pack("B",0))
+		if(jdata["Categories"]["FMMU"][str(i)]=="Output"):
+			f.write(struct.pack("B",1))
+		if(jdata["Categories"]["FMMU"][str(i)]=="Input"):
+			f.write(struct.pack("B",2))
+		if(jdata["Categories"]["FMMU"][str(i)]=="SyncM"):
+			f.write(struct.pack("B",3))
+#==============================================================================#
+#
+#==============================================================================#			
+def Categorie_SYNCM(f,jdata):
+	f.write(struct.pack("H",41))
+	index = len(jdata["Categories"]["SyncM"])
+	f.write(struct.pack("H",(index-1)*8))
+	for i in range(index):
+		f.write(struct.pack("H",int(jdata["Categories"]["SyncM"][str(i)]["PhysicalStartAddress"],16)))
+		f.write(struct.pack("H",int(jdata["Categories"]["SyncM"][str(i)]["Length"],16)))
+		f.write(struct.pack("B",int(jdata["Categories"]["SyncM"][str(i)]["ControlRegister"],16)))
+		f.write(struct.pack("B",int(jdata["Categories"]["SyncM"][str(i)]["StartRegister"],16)))
+		f.write(struct.pack("B",int(jdata["Categories"]["SyncM"][str(i)]["EnableSyncManager"],16)))
+		f.write(struct.pack("B",int(jdata["Categories"]["SyncM"][str(i)]["SyncManagerType"],16)))
+
+#==============================================================================#
+#
+#==============================================================================#
+def Categorie_TXPDO(f,jdata):
+	f.write(struct.pack("H",50))
+	index = len(jdata["Categories"]["TXPDO"])
+	f.write(struct.pack("H",7+(index-7)))
+	print(index)
+	f.write(struct.pack("H",int(jdata["Categories"]["TXPDO"]["PDOIndex"],16)))
+	f.write(struct.pack("B",int(jdata["Categories"]["TXPDO"]["nEntry"],16)))
+	f.write(struct.pack("B",int(jdata["Categories"]["TXPDO"]["SyncM"],16)))
+	f.write(struct.pack("B",int(jdata["Categories"]["TXPDO"]["Synchronization"],16)))
+	f.write(struct.pack("B",int(jdata["Categories"]["TXPDO"]["NameIdx"],16)))
+	f.write(struct.pack("H",int(jdata["Categories"]["TXPDO"]["Flags"],16)))
+	for i in range(index-7):
+		f.write(struct.pack("H",int(jdata["Categories"]["TXPDO"][str(i)]["EntryIndex"],16)))
+		f.write(struct.pack("B",int(jdata["Categories"]["TXPDO"][str(i)]["SubIndex"],16)))
+		f.write(struct.pack("B",int(jdata["Categories"]["TXPDO"][str(i)]["EntryNameIndex"],16)))
+		f.write(struct.pack("B",int(jdata["Categories"]["TXPDO"][str(i)]["DataType"],16)))
+		f.write(struct.pack("B",int(jdata["Categories"]["TXPDO"][str(i)]["BitLen"],16)))
+		f.write(struct.pack("H",int(jdata["Categories"]["TXPDO"][str(i)]["Flags"],16)))
+#==============================================================================#
+#
+#==============================================================================#
+def Categorie_RXPDO(f,jdata):
+	f.write(struct.pack("H",51))
+	index = len(jdata["Categories"]["RXPDO"])
+	f.write(struct.pack("H",7+(index-7)))
+	print(index)
+	f.write(struct.pack("H",int(jdata["Categories"]["RXPDO"]["PDOIndex"],16)))
+	f.write(struct.pack("B",int(jdata["Categories"]["RXPDO"]["nEntry"],16)))
+	f.write(struct.pack("B",int(jdata["Categories"]["RXPDO"]["SyncM"],16)))
+	f.write(struct.pack("B",int(jdata["Categories"]["RXPDO"]["Synchronization"],16)))
+	f.write(struct.pack("B",int(jdata["Categories"]["RXPDO"]["NameIdx"],16)))
+	f.write(struct.pack("H",int(jdata["Categories"]["RXPDO"]["Flags"],16)))
+	for i in range(index-7):
+		f.write(struct.pack("H",int(jdata["Categories"]["RXPDO"][str(i)]["EntryIndex"],16)))
+		f.write(struct.pack("B",int(jdata["Categories"]["RXPDO"][str(i)]["SubIndex"],16)))
+		f.write(struct.pack("B",int(jdata["Categories"]["RXPDO"][str(i)]["EntryNameIndex"],16)))
+		f.write(struct.pack("B",int(jdata["Categories"]["RXPDO"][str(i)]["DataType"],16)))
+		f.write(struct.pack("B",int(jdata["Categories"]["RXPDO"][str(i)]["BitLen"],16)))
+		f.write(struct.pack("H",int(jdata["Categories"]["RXPDO"][str(i)]["Flags"],16)))
+#==============================================================================#
+#
+#==============================================================================#
+def Categorie_DC(f,jdata):
+	f.write(struct.pack("H",60))
+	index = len(jdata["Categories"]["DC"])
+	print(index)
+	f.write(struct.pack("H",(index-1)*24))
+	for i in range(index):
+		f.write(struct.pack("<I",int(jdata["Categories"]["DC"][str(i)]["CycleTime0"],16)))
+		f.write(struct.pack("<I",int(jdata["Categories"]["DC"][str(i)]["ShiftTime0"],16)))
+		f.write(struct.pack("<I",int(jdata["Categories"]["DC"][str(i)]["ShiftTime1"],16)))
+		f.write(struct.pack("H",int(jdata["Categories"]["DC"][str(i)]["Sync1CycleFactor"],16)))
+		f.write(struct.pack("H",int(jdata["Categories"]["DC"][str(i)]["assignActivate"],16)))
+		f.write(struct.pack("H",int(jdata["Categories"]["DC"][str(i)]["Sync0CycleFactor"],16)))
+		f.write(struct.pack("B",int(jdata["Categories"]["DC"][str(i)]["NameIdx"],16)))
+		f.write(struct.pack("B",int(jdata["Categories"]["DC"][str(i)]["DescIdx"],16)))
+		f.write(struct.pack("<I",int(jdata["Categories"]["DC"][str(i)]["Reserved"],16)))
+
 
 #==============================================================================#
 #
@@ -194,8 +330,8 @@ def WriteEEPROM(nicname,outbin,ADPaddr):
 #==============================================================================#
 if __name__ == "__main__":
 
-    nicname = "eth0"
-    injson = "eeprom_config.json"
+    nicname = "eno2"
+    injson = "eeprom_read_costom.json"
     outbin = "out.bin"
     ADPaddr = 0x0000
     print("="*10)
@@ -213,4 +349,3 @@ if __name__ == "__main__":
     print("="*10)
     print("END Thanks.......")
     print("="*10)
- 

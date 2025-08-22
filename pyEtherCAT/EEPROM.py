@@ -38,17 +38,17 @@ def EEPROM_Stasus(enable=0x00, command=0x00):
 def EEPROM_AddrSet(addr=0x0000):
     cat.APWR(IDX=0x00, ADP=ADP, ADO=0x0504, DATA=[
              addr & 0xFF, (addr >> 8) & 0xFF])
-    # time.sleep(0.05)
+    time.sleep(0.05)
     (DATA, WKC) = cat.socket_read()
-    # time.sleep(0.05)
+    time.sleep(0.05)
     return (DATA, WKC)
 
 
 def EEPROM_Read():
     cat.APRD(IDX=0x00, ADP=ADP, ADO=0x0508, DATA=[0x00, 0x00])
-    # time.sleep(0.05)
+    time.sleep(0.05)
     (DATA, WKC) = cat.socket_read()
-    # time.sleep(0.05)
+    time.sleep(0.05)
     return (DATA, WKC)
 
 

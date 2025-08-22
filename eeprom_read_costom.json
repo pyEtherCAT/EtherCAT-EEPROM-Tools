@@ -1,0 +1,179 @@
+{
+    "ESC Info": {
+        "PDI Control": {
+            "PDI ControlRegister": "0x80",
+            "ESC Configuration Register": "0x03"
+        },
+        "PDI Configuration": {
+            "PDI Configuration Register": "0x00",
+            "Sync/Latch PDI Configuration Register": "0x6E"
+        },
+        "Other INFO": {
+            "MII Management Control/Status Register": "0x00",
+            "ASIC Configuration Register": "0x00"
+        },
+        "Pulse Length of SyncSignals Register": "0x00FF",
+        "Extended PDI Configuration Register": "0x00FF",
+        "Configured Station Alias Register": "0x0000",
+        "CRC": "0x0022",
+        "Vendor ID": "0x00000A68",
+        "Product Code": "0x0000005A",
+        "Revision Number": "0x00000001",
+        "Serial Number": "0x00000000",
+        "Bootstrap Receive Mailbox Offset": "0x0000",
+        "Bootstrap Receive Mailbox Size": "0x0000",
+        "Bootstrap Send Mailbox Offset": "0x0000",
+        "Bootstrap Send Mailbox Size": "0x0000",
+        "Standard Receive Mailbox Offset": "0x0000",
+        "Standard Receive Mailbox Size": "0x0000",
+        "Standard Send Mailbox Offset": "0x0000",
+        "Standard Send Mailbox Size": "0x0000",
+        "Mailbox Protocol": "0x0000",
+        "EEPROM Size": "0x001F",
+        "Version": "0x0001"
+    },
+    "Categories": {
+        "STRINGS": {
+            "WORD Length": "0x000A",
+            "Index": {
+                "0": {
+                    "string": "ArtifactNoise_G431_Custom"
+                },
+                "1": {
+                    "string": "SSC_Device"
+                },
+                "2": {
+                    "string": "EasyCAT"
+                },
+                "3": {
+                    "string": "ArtifactNoise_G431_Custom"
+                },
+                "4": {
+                    "string": "SM_Sync or Async"
+                },
+                "5": {
+                    "string": "DC_Sync"
+                },
+                "6": {
+                    "string": "Inputs"
+                },
+                "7": {
+                    "string": "1 Byte In(0)"
+                },
+                "8": {
+                    "string": "Outputs"
+                },
+                "9": {
+                    "string": "1 Byte Out(0)"
+                }
+            }
+        },
+        "General": {
+            "GroupIdx": 2,
+            "GroupStrings": "SSC_Device",
+            "ImgIdx": 0,
+            "OrderIdx": 4,
+            "OrderStrings": "ArtifactNoise_G431_Custom",
+            "NameIdx": 1,
+            "NameStrings": "ArtifactNoise_G431_Custom",
+            "CoE Details": 0,
+            "FoE Details": 0,
+            "EoE Details": 0,
+            "SoE Channels": 0,
+            "DS402 Channels": 0,
+            "SysmanClass": 0,
+            "Flags": 0,
+            "CurrentOnEBus": 0,
+            "GroupIdx2": 3,
+            "GroupStrings2": "EasyCAT",
+            "Physical Port": "0x0011",
+            "Physical Memory Address": "0x0000"
+        },
+        "FMMU": {
+            "0": "Output",
+            "1": "Input"
+        },
+        "SyncM": {
+            "0": {
+                "PhysicalStartAddress": "0x1000",
+                "Length": "0x0000",
+                "ControlRegister": "0x64",
+                "StartRegister": "0x00",
+                "EnableSyncManager": "0x01",
+                "SyncManagerType": "0x03"
+            },
+            "1": {
+                "PhysicalStartAddress": "0x1200",
+                "Length": "0x0000",
+                "ControlRegister": "0x20",
+                "StartRegister": "0x00",
+                "EnableSyncManager": "0x01",
+                "SyncManagerType": "0x04"
+            }
+        },
+        "TXPDO": {
+            "PDOIndex": "0x1A00",
+            "nEntry": "0x01",
+            "SyncM": "0x01",
+            "Synchronization": "0x00",
+            "NameIdx": "0x07",
+            "NameStrings": "Inputs",
+            "Flags": "0x0011",
+            "0": {
+                "EntryIndex": "0x0006",
+                "SubIndex": "0x01",
+                "EntryNameIndex": "0x08",
+                "EntryNameStrings": "1 Byte In(0)",
+                "DataType": "0x05",
+                "BitLen": "0x08",
+                "Flags": "0x0000"
+            }
+        },
+        "RXPDO": {
+            "PDOIndex": "0x1600",
+            "nEntry": "0x01",
+            "SyncM": "0x00",
+            "Synchronization": "0x00",
+            "NameIdx": "0x09",
+            "NameStrings": "Outputs",
+            "Flags": "0x0011",
+            "0": {
+                "EntryIndex": "0x0005",
+                "SubIndex": "0x01",
+                "EntryNameIndex": "0x0A",
+                "EntryNameStrings": "1 Byte Out(0)",
+                "DataType": "0x05",
+                "BitLen": "0x08",
+                "Flags": "0x0000"
+            }
+        },
+        "DC": {
+            "0": {
+                "CycleTime0": "0x00000000",
+                "ShiftTime0": "0x00000000",
+                "ShiftTime1": "0x00000000",
+                "Sync1CycleFactor": "0x00",
+                "assignActivate": "0x00",
+                "Sync0CycleFactor": "0x00",
+                "NameIdx": "0x05",
+                "NameStrings": "SM_Sync or Async",
+                "DescIdx": "0x05",
+                "DescStrings": "SM_Sync or Async",
+                "Reserved": "0x00"
+            },
+            "1": {
+                "CycleTime0": "0x00000000",
+                "ShiftTime0": "0x7738A140",
+                "ShiftTime1": "0x00000000",
+                "Sync1CycleFactor": "0x00",
+                "assignActivate": "0x300",
+                "Sync0CycleFactor": "0x01",
+                "NameIdx": "0x06",
+                "NameStrings": "DC_Sync",
+                "DescIdx": "0x06",
+                "DescStrings": "DC_Sync",
+                "Reserved": "0x00"
+            }
+        }
+    }
+}

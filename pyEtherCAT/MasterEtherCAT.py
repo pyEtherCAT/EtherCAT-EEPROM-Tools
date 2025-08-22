@@ -237,10 +237,10 @@ class MasterEtherCAT:
         self.ADP = ADP
         self.APWR(IDX=0x00, ADP=self.ADP, ADO=0x0500, DATA=[0x02])
         self.socket_read()
-        # time.sleep(0.1)
+        time.sleep(0.1)
         self.APWR(IDX=0x00, ADP=self.ADP, ADO=0x0500, DATA=[0x00])
         self.socket_read()
-        # time.sleep(0.1)
+        time.sleep(0.1)
 
     def EEPROM_Stasus(self, enable=0x00, command=0x00):
         d = command << 8 | enable
@@ -271,9 +271,9 @@ class MasterEtherCAT:
 
     def EEPROM_Read(self):
         self.APRD(IDX=0x00, ADP=self.ADP, ADO=0x0508, DATA=[0x00, 0x00])
-        # time.sleep(0.05)
+        #time.sleep(0.01)
         (DATA, WKC) = self.socket_read()
-        # time.sleep(0.05)
+        #time.sleep(0.01)
         return (DATA, WKC)
 
     def EEPROM_Write(self, data):
