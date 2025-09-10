@@ -210,8 +210,8 @@ def BINtoJSON(inbin,outjson):
             print('0x{:02X} : 0x{:04X} {:02d}'.format(base,Categories,Categories))
             print("---------------------------")
         
-        if(word(data,base+1)==0x00):
-            break
+        #if(word(data,base+1)==0x00):
+        #    break
         if(size <= base+1) :
             break
         base = base + word(data,base+1)+2
@@ -406,11 +406,8 @@ def Categorie_DC(data, base, jdata):
 #==============================================================================#
 if __name__ == "__main__":
     
-    nicname = "eno2"
+    nicname = "eno1"
     inbin = 'out.bin'
-    #inbin = 'read.bin'
-    #inbin = 'omron_read.bin'
-    #outjson = "eeprom_read_costom.json"
     outjson = "eeprom_read_out.json"
     ADPaddr = 0x0000
     print("="*10)

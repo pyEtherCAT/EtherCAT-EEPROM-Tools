@@ -154,7 +154,10 @@ def Categorie_STRINGS(f,jdata):
 	for i in range(len(jdata["Categories"]["STRINGS"]["Index"])):
 		length  = len(jdata["Categories"]["STRINGS"]["Index"][str(i)]["string"].encode('utf-8'))
 		csize = csize + length+1
-	f.write(struct.pack("H",int(csize/2)+1)) 
+	if((csize%2) == 1):
+		f.write(struct.pack("H",int(csize/2)+1)) 
+	else:
+		f.write(struct.pack("H",int(csize/2))) 
 	addr = f.tell()
 	f.write(struct.pack("B",int(jdata["Categories"]["STRINGS"]["WORD Length"],16)))            # STRINGS 
 	#print(len(jdata["Categories"]["STRINGS"]["Index"]))
@@ -189,10 +192,10 @@ def Categorie_GENERAL(f,jdata):
 	f.write(struct.pack("B",0x00))     # Flags
 	f.write(struct.pack("H",0x00))     # CurrentOnEBus
 	f.write(struct.pack("B",jdata["Categories"]["General"]["GroupIdx2"]))     # GroupIdx
-	f.write(struct.pack("H",0x00))     # Reserved1
+	f.write(struct.pack("B",0x00))     # Reserved1
 	f.write(struct.pack("H",int(jdata["Categories"]["General"]["Physical Port"],16)))     # Physical Port
 	f.write(struct.pack("H",int(jdata["Categories"]["General"]["Physical Memory Address"],16)))     # Physical Memory Address
-	for i in range(12-1):
+	for i in range(12):
 		f.write(struct.pack("B",0x00))     # Reserved2
 #==============================================================================#
 #
@@ -230,16 +233,18 @@ def Categorie_SYNCM(f,jdata):
 #==============================================================================#
 def Categorie_TXPDO(f,jdata):
 	f.write(struct.pack("H",50))
-	index = len(jdata["Categories"]["TXPDO"])
-	f.write(struct.pack("H",7+(index-7)))
+	index = len(jdata["Categories"]["TXPDO"])-7
+	length = int(((index*8)+8)/2)
+	f.write(struct.pack("H",length))
 	print(index)
+	print(length)
 	f.write(struct.pack("H",int(jdata["Categories"]["TXPDO"]["PDOIndex"],16)))
 	f.write(struct.pack("B",int(jdata["Categories"]["TXPDO"]["nEntry"],16)))
 	f.write(struct.pack("B",int(jdata["Categories"]["TXPDO"]["SyncM"],16)))
 	f.write(struct.pack("B",int(jdata["Categories"]["TXPDO"]["Synchronization"],16)))
 	f.write(struct.pack("B",int(jdata["Categories"]["TXPDO"]["NameIdx"],16)))
 	f.write(struct.pack("H",int(jdata["Categories"]["TXPDO"]["Flags"],16)))
-	for i in range(index-7):
+	for i in range(index):
 		f.write(struct.pack("H",int(jdata["Categories"]["TXPDO"][str(i)]["EntryIndex"],16)))
 		f.write(struct.pack("B",int(jdata["Categories"]["TXPDO"][str(i)]["SubIndex"],16)))
 		f.write(struct.pack("B",int(jdata["Categories"]["TXPDO"][str(i)]["EntryNameIndex"],16)))
@@ -251,16 +256,18 @@ def Categorie_TXPDO(f,jdata):
 #==============================================================================#
 def Categorie_RXPDO(f,jdata):
 	f.write(struct.pack("H",51))
-	index = len(jdata["Categories"]["RXPDO"])
-	f.write(struct.pack("H",7+(index-7)))
+	index = len(jdata["Categories"]["RXPDO"])-7
+	length = int(((index*8)+8)/2)
+	f.write(struct.pack("H",length))
 	print(index)
+	print(length)
 	f.write(struct.pack("H",int(jdata["Categories"]["RXPDO"]["PDOIndex"],16)))
 	f.write(struct.pack("B",int(jdata["Categories"]["RXPDO"]["nEntry"],16)))
 	f.write(struct.pack("B",int(jdata["Categories"]["RXPDO"]["SyncM"],16)))
 	f.write(struct.pack("B",int(jdata["Categories"]["RXPDO"]["Synchronization"],16)))
 	f.write(struct.pack("B",int(jdata["Categories"]["RXPDO"]["NameIdx"],16)))
 	f.write(struct.pack("H",int(jdata["Categories"]["RXPDO"]["Flags"],16)))
-	for i in range(index-7):
+	for i in range(index):
 		f.write(struct.pack("H",int(jdata["Categories"]["RXPDO"][str(i)]["EntryIndex"],16)))
 		f.write(struct.pack("B",int(jdata["Categories"]["RXPDO"][str(i)]["SubIndex"],16)))
 		f.write(struct.pack("B",int(jdata["Categories"]["RXPDO"][str(i)]["EntryNameIndex"],16)))
@@ -331,7 +338,7 @@ def WriteEEPROM(nicname,outbin,ADPaddr):
 if __name__ == "__main__":
 
     nicname = "eno2"
-    injson = "eeprom_read_costom.json"
+    injson = "eeprom_read_out.json"
     outbin = "out.bin"
     ADPaddr = 0x0000
     print("="*10)
